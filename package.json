@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "@types/node": "^16.9.1",
+    "child_process": "^1.0.2",
+    "cli-color": "^2.0.0",
+    "compressing": "^1.5.1",
+    "lodash": "^4.17.21",
+    "multipipe": "^4.0.0",
+    "node-xlsx": "^0.15.0",
+    "readline-sync": "^1.4.10",
+    "request": "^2.88.2",
+    "ts-node": "^10.2.1",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.4.2"
+  },
+  "name": "@lyctianya/tools",
+  "description": "This is normal nodejs tools package.",
+  "version": "1.0.0",
+  "devDependencies": {},
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc --declaration"
+  },
+  "author": "lyctianya",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lyctianya/NodeJsTools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lyctianya/NodeJsTools/issues"
+  },
+  "homepage": "https://github.com/lyctianya/NodeJsTools#readme"
+}
