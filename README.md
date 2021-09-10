@@ -3,7 +3,7 @@
  * @Author: 李永创
  * @Date: 2021-09-10 14:01:39
  * @LastEditors: 李永创
- * @LastEditTime: 2021-09-10 14:37:53
+ * @LastEditTime: 2021-09-10 15:39:07
 -->
 # NodeJsTools
 常用的Nodejs开发工具。nodejs+ts+npm
@@ -60,6 +60,11 @@ yarn build
 npm adduser  
 2. 发布
 npm publish
+
+如果带有作用域需使用如下命令：
+如：@lyctianya/tools 这种的包名
+npm publish --access=public
+
 3. 删除
 npm unpublish nodejstools --force
 ```
