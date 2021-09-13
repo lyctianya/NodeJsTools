@@ -8,6 +8,7 @@ import * as Clicolor from "cli-color";
 import * as xlsx from "node-xlsx";
 import * as crypto from "crypto";
 import request from "request";
+import AudioLoader from "audio-loader"
 import * as http from "http";
 import * as readlineSync from "readline-sync"
 
@@ -582,6 +583,117 @@ class Tools {
      */
     async getNpmLastVersion(packageName: string): Promise<string> {
         return await this.executeCmd(`npm view ${packageName} version`)
+    }
+
+    /** 格式化时间
+     * @example
+     let date = new Date()
+     dateFormat("YYYY-mm-dd HH:MM", date)
+     >>> 2019-06-06 19:45`
+     * @description
+     * @param {string} fmt
+     * @param {Date} date
+     * @return {*}  {string}
+     * @memberof Util
+     */
+    dateFormat(fmt: string, date: Date): string {
+        let ret;
+        const opt = {
+            'Y+': date.getFullYear().toString(), // 年
+            'm+': (date.getMonth() + 1).toString(), // 月
+            'd+': date.getDate().toString(), // 日
+            'H+': date.getHours().toString(), // 时
+            'M+': date.getMinutes().toString(), // 分
+            'S+': date.getSeconds().toString(), // 秒
+            'Z+': date.getMilliseconds().toString() //毫秒
+            // 有其他格式化字符需求可以继续添加，必须转化成字符串
+        };
+        for (const k in opt) {
+            ret = new RegExp('(' + k + ')').exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, '0'));
+            }
+        }
+        return fmt;
+    }
+
+    /**获取本机ip
+     * @description
+     * @return {*}
+     * @memberof Tools
+     */
+    getIPAdress() {
+        var interfaces = OS.networkInterfaces();
+        for (var devName in interfaces) {
+            var iface = interfaces[devName];
+            for (var i = 0; i < iface.length; i++) {
+                var alias = iface[i];
+                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                    return alias.address;
+                }
+            }
+        }
+    }
+
+    /** 获取文件的音频时长(秒)
+     * @description
+     * @param {string} audioPath
+     * @return {*}  {Promise<number>}
+     * @memberof Tools
+     */
+    getAudioTime(audioPath: string): Promise<number> {
+        return new Promise((resolve, reject) => {
+            if (!this.isFile(audioPath)) {
+                reject(0);
+            } else {
+                AudioLoader(audioPath).then((res) => {
+                    resolve(res.duration);
+                });
+            }
+        });
+    }
+
+    /** 比对两个版本,av-bv>0 说明av>bv
+     * @description
+     * @param {string} av
+     * @param {string} bv
+     * @return {number}
+     * @memberof Tools
+     */
+    compareVersion(av: string, bv: string): number {
+        if (av && bv) {
+            //将两个版本号拆成数字
+            const arr = av.split('.');
+            const brr = bv.split('.');
+            let ret = 0;
+            for (let i = 0; i < Math.max(arr.length, brr.length); i++) {
+                if (arr[i] && brr[i]) {
+                    if (arr[i] != brr[i]) {
+                        return parseInt(arr[i]) - parseInt(brr[i]);
+                    }
+                } else {
+                    return arr[i] ? 1 : -1;
+                }
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+
+    /** 产生一个uuid
+     * @description
+     * @return {*}
+     * @memberof Tools
+     */
+    generateUUID() {
+        let d = new Date().getTime();
+        const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            const r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+        });
+        return uuid;
     }
 }
 

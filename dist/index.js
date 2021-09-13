@@ -68,6 +68,7 @@ var Clicolor = __importStar(require("cli-color"));
 var xlsx = __importStar(require("node-xlsx"));
 var crypto = __importStar(require("crypto"));
 var request_1 = __importDefault(require("request"));
+var audio_loader_1 = __importDefault(require("audio-loader"));
 var http = __importStar(require("http"));
 var readlineSync = __importStar(require("readline-sync"));
 var Tools = /** @class */ (function () {
@@ -631,6 +632,116 @@ var Tools = /** @class */ (function () {
                 }
             });
         });
+    };
+    /** 格式化时间
+     * @example
+     let date = new Date()
+     dateFormat("YYYY-mm-dd HH:MM", date)
+     >>> 2019-06-06 19:45`
+     * @description
+     * @param {string} fmt
+     * @param {Date} date
+     * @return {*}  {string}
+     * @memberof Util
+     */
+    Tools.prototype.dateFormat = function (fmt, date) {
+        var ret;
+        var opt = {
+            'Y+': date.getFullYear().toString(),
+            'm+': (date.getMonth() + 1).toString(),
+            'd+': date.getDate().toString(),
+            'H+': date.getHours().toString(),
+            'M+': date.getMinutes().toString(),
+            'S+': date.getSeconds().toString(),
+            'Z+': date.getMilliseconds().toString() //毫秒
+            // 有其他格式化字符需求可以继续添加，必须转化成字符串
+        };
+        for (var k in opt) {
+            ret = new RegExp('(' + k + ')').exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, '0'));
+            }
+        }
+        return fmt;
+    };
+    /**获取本机ip
+     * @description
+     * @return {*}
+     * @memberof Tools
+     */
+    Tools.prototype.getIPAdress = function () {
+        var interfaces = OS.networkInterfaces();
+        for (var devName in interfaces) {
+            var iface = interfaces[devName];
+            for (var i = 0; i < iface.length; i++) {
+                var alias = iface[i];
+                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
+                    return alias.address;
+                }
+            }
+        }
+    };
+    /** 获取文件的音频时长(秒)
+     * @description
+     * @param {string} audioPath
+     * @return {*}  {Promise<number>}
+     * @memberof Tools
+     */
+    Tools.prototype.getAudioTime = function (audioPath) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            if (!_this.isFile(audioPath)) {
+                reject(0);
+            }
+            else {
+                (0, audio_loader_1.default)(audioPath).then(function (res) {
+                    resolve(res.duration);
+                });
+            }
+        });
+    };
+    /** 比对两个版本,av-bv>0 说明av>bv
+     * @description
+     * @param {string} av
+     * @param {string} bv
+     * @return {number}
+     * @memberof Tools
+     */
+    Tools.prototype.compareVersion = function (av, bv) {
+        if (av && bv) {
+            //将两个版本号拆成数字
+            var arr = av.split('.');
+            var brr = bv.split('.');
+            var ret = 0;
+            for (var i = 0; i < Math.max(arr.length, brr.length); i++) {
+                if (arr[i] && brr[i]) {
+                    if (arr[i] != brr[i]) {
+                        return parseInt(arr[i]) - parseInt(brr[i]);
+                    }
+                }
+                else {
+                    return arr[i] ? 1 : -1;
+                }
+            }
+            return 0;
+        }
+        else {
+            return 0;
+        }
+    };
+    /** 产生一个uuid
+     * @description
+     * @return {*}
+     * @memberof Tools
+     */
+    Tools.prototype.generateUUID = function () {
+        var d = new Date().getTime();
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+        });
+        return uuid;
     };
     return Tools;
 }());

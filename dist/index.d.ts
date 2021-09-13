@@ -228,6 +228,45 @@ declare class Tools {
      * @return {*}
      */
     getNpmLastVersion(packageName: string): Promise<string>;
+    /** 格式化时间
+     * @example
+     let date = new Date()
+     dateFormat("YYYY-mm-dd HH:MM", date)
+     >>> 2019-06-06 19:45`
+     * @description
+     * @param {string} fmt
+     * @param {Date} date
+     * @return {*}  {string}
+     * @memberof Util
+     */
+    dateFormat(fmt: string, date: Date): string;
+    /**获取本机ip
+     * @description
+     * @return {*}
+     * @memberof Tools
+     */
+    getIPAdress(): string;
+    /** 获取文件的音频时长(秒)
+     * @description
+     * @param {string} audioPath
+     * @return {*}  {Promise<number>}
+     * @memberof Tools
+     */
+    getAudioTime(audioPath: string): Promise<number>;
+    /** 比对两个版本,av-bv>0 说明av>bv
+     * @description
+     * @param {string} av
+     * @param {string} bv
+     * @return {number}
+     * @memberof Tools
+     */
+    compareVersion(av: string, bv: string): number;
+    /** 产生一个uuid
+     * @description
+     * @return {*}
+     * @memberof Tools
+     */
+    generateUUID(): string;
 }
 declare const _default: Tools;
 export default _default;

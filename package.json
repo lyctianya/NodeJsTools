@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@types/node": "^16.9.1",
+    "audio-loader": "^1.0.3",
     "child_process": "^1.0.2",
     "cli-color": "^2.0.0",
     "compressing": "^1.5.1",
@@ -15,7 +16,7 @@
   },
   "name": "@lyctianya/tools",
   "description": "This is normal nodejs tools package.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "devDependencies": {},
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
