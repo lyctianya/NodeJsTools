@@ -615,6 +615,23 @@ var Tools = /** @class */ (function () {
             });
         });
     };
+    /**
+     * @name: 获取npm包最新版本
+     * @test: test font
+     * @msg:
+     * @param {string} packageName
+     * @return {*}
+     */
+    Tools.prototype.getNpmLastVersion = function (packageName) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.executeCmd("npm view " + packageName + " version")];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     return Tools;
 }());
 exports.default = new Tools();

@@ -220,6 +220,14 @@ declare class Tools {
         headers?: any;
     }, body: any): Promise<unknown>;
     http_get(url: string, args?: any): Promise<unknown>;
+    /**
+     * @name: 获取npm包最新版本
+     * @test: test font
+     * @msg:
+     * @param {string} packageName
+     * @return {*}
+     */
+    getNpmLastVersion(packageName: string): Promise<string>;
 }
 declare const _default: Tools;
 export default _default;

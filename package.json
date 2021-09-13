@@ -15,7 +15,7 @@
   },
   "name": "@lyctianya/tools",
   "description": "This is normal nodejs tools package.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "devDependencies": {},
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
