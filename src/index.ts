@@ -572,6 +572,17 @@ class Tools {
             });
         });
     }
+
+    /**
+     * @name: 获取npm包最新版本
+     * @test: test font
+     * @msg: 
+     * @param {string} packageName
+     * @return {*}
+     */
+    async getNpmLastVersion(packageName: string): Promise<string> {
+        return await this.executeCmd(`npm view ${packageName} version`)
+    }
 }
 
 export default new Tools();

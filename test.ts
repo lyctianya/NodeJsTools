@@ -3,9 +3,11 @@
  * @Author: 李永创
  * @Date: 2021-09-09 16:18:01
  * @LastEditors: 李永创
- * @LastEditTime: 2021-09-10 14:28:36
+ * @LastEditTime: 2021-09-13 15:26:55
  */
 import Tools from "./src/index"
-console.log(Tools.getPWD())
-console.log(Tools.getOSType())
-console.log(Tools.readFile("./LICENSE"))
+
+(async () => {
+  const version = await Tools.getNpmLastVersion("@lyctianya/cmdtools")
+  console.log(version)
+})()
